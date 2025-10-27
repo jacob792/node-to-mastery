@@ -12,6 +12,7 @@ export interface SkillTreeConfig {
   difficulty: string;
   goalType: string;
   timeCommitment: string;
+  endGoal?: string;
 }
 
 // Predefined skill trees for popular skills
@@ -105,6 +106,77 @@ const skillTreeTemplates: Record<string, SkillTreeNode[]> = {
   ],
 };
 
+// Goal-specific skill trees for popular end goals
+const goalTreeTemplates: Record<string, Record<string, SkillTreeNode[]>> = {
+  Fitness: {
+    "handstand pushup": [
+      { id: "g1", title: "Wall Push-ups", description: "Master 20 wall push-ups with proper form to build foundation strength", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "g2", title: "Regular Push-ups", description: "Complete 20 full push-ups with chest to ground, elbows at 45 degrees", difficulty: "easy", dependencies: ["g1"], tier: 2 },
+      { id: "g3", title: "Wall Plank Hold", description: "Face wall, walk feet up to horizontal, hold for 30 seconds", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "g4", title: "Pike Push-ups", description: "Perform 15 pike push-ups with hips high, building shoulder strength", difficulty: "medium", dependencies: ["g2"], tier: 3 },
+      { id: "g5", title: "Handstand Hold Against Wall", description: "Kick up to wall handstand, hold for 60 seconds with controlled breathing", difficulty: "medium", dependencies: ["g3"], tier: 3 },
+      { id: "g6", title: "Elevated Pike Push-ups", description: "Pike push-ups with feet elevated, complete 12 reps for vertical pressing strength", difficulty: "medium", dependencies: ["g4"], tier: 4 },
+      { id: "g7", title: "Chest-to-Wall Handstand", description: "Hold chest-to-wall handstand for 60 seconds with hollow body position", difficulty: "hard", dependencies: ["g5"], tier: 4 },
+      { id: "g8", title: "Negative Handstand Push-up", description: "Control descent from handstand to head touching ground, 5 slow reps", difficulty: "hard", dependencies: ["g6", "g7"], tier: 5 },
+      { id: "g9", title: "Partial Handstand Push-up", description: "Handstand push-up with reduced range, work up to 8 reps", difficulty: "hard", dependencies: ["g8"], tier: 6 },
+      { id: "g10", title: "Full Handstand Push-up", description: "Complete handstand push-up: nose to ground and back up, achieve 5 clean reps", difficulty: "hard", dependencies: ["g9"], tier: 7 },
+    ],
+    "muscle up": [
+      { id: "m1", title: "Dead Hang", description: "Hang from pull-up bar for 60 seconds with active shoulders", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "m2", title: "Regular Pull-ups", description: "Complete 10 strict pull-ups with chin over bar", difficulty: "easy", dependencies: ["m1"], tier: 2 },
+      { id: "m3", title: "Bar Dips", description: "Perform 15 parallel bar dips with full range of motion", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "m4", title: "Chest-to-Bar Pull-ups", description: "Pull chest to bar for 8 reps, building explosive power", difficulty: "medium", dependencies: ["m2"], tier: 3 },
+      { id: "m5", title: "High Pull-ups", description: "Pull as high as possible, getting bar to chest/stomach level, 6 reps", difficulty: "medium", dependencies: ["m4"], tier: 4 },
+      { id: "m6", title: "Transition Practice", description: "Jump to support position on bar, hold and lower slowly, 10 reps", difficulty: "medium", dependencies: ["m3"], tier: 3 },
+      { id: "m7", title: "Negative Muscle Up", description: "Jump to top position, slowly lower through full muscle up motion, 5 reps", difficulty: "hard", dependencies: ["m5", "m6"], tier: 5 },
+      { id: "m8", title: "Band-Assisted Muscle Up", description: "Complete muscle up with resistance band assistance, 5 reps", difficulty: "hard", dependencies: ["m7"], tier: 6 },
+      { id: "m9", title: "First Muscle Up", description: "Achieve your first strict muscle up: pull, transition, press out", difficulty: "hard", dependencies: ["m8"], tier: 7 },
+    ],
+  },
+  Guitar: {
+    "play stairway to heaven": [
+      { id: "s1", title: "Basic Fingerpicking", description: "Learn thumb-fingers alternating pattern, practice for 15 minutes daily", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "s2", title: "Am Arpeggio Pattern", description: "Master the intro arpeggio pattern slowly at 40 BPM", difficulty: "easy", dependencies: ["s1"], tier: 2 },
+      { id: "s3", title: "Chord Transitions", description: "Learn and switch between Am, G/A, C/G, D/F#, Fmaj7 smoothly", difficulty: "medium", dependencies: ["s2"], tier: 3 },
+      { id: "s4", title: "Intro Section Complete", description: "Play full intro section at 60 BPM with accurate timing", difficulty: "medium", dependencies: ["s3"], tier: 4 },
+      { id: "s5", title: "Basic Scales", description: "Learn Am pentatonic scale positions 1 and 2", difficulty: "medium", dependencies: ["s1"], tier: 3 },
+      { id: "s6", title: "Solo Techniques", description: "Practice bends, slides, and hammer-ons from the solo section", difficulty: "hard", dependencies: ["s5"], tier: 5 },
+      { id: "s7", title: "Solo Section 1", description: "Master first solo section at 70% speed with correct phrasing", difficulty: "hard", dependencies: ["s6"], tier: 6 },
+      { id: "s8", title: "Full Song Structure", description: "Connect intro, verse, solo - play complete song at 80% speed", difficulty: "hard", dependencies: ["s4", "s7"], tier: 7 },
+      { id: "s9", title: "Performance Ready", description: "Play Stairway to Heaven at full speed (BPM 80) from memory", difficulty: "hard", dependencies: ["s8"], tier: 8 },
+    ],
+  },
+  Drawing: {
+    "draw realistic portraits": [
+      { id: "p1", title: "Facial Proportions", description: "Study Loomis method: learn eye line, nose line, mouth placement on 20 sketches", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "p2", title: "Basic Head Construction", description: "Draw heads from 5 angles using construction lines and basic shapes", difficulty: "easy", dependencies: ["p1"], tier: 2 },
+      { id: "p3", title: "Eye Studies", description: "Draw 30 eyes from reference: understand iris, pupil, eyelids, and light reflection", difficulty: "medium", dependencies: ["p2"], tier: 3 },
+      { id: "p4", title: "Nose Structure", description: "Study and draw 20 noses from different angles, focus on bridge and nostrils", difficulty: "medium", dependencies: ["p2"], tier: 3 },
+      { id: "p5", title: "Mouth and Lips", description: "Draw 20 mouths: closed, open, smiling - master lip structure and teeth", difficulty: "medium", dependencies: ["p2"], tier: 3 },
+      { id: "p6", title: "Value and Shading", description: "Create 5-value scale, practice smooth gradients and form shadows", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "p7", title: "Portrait Lighting", description: "Study 3 lighting setups: front, side, Rembrandt - sketch each setup", difficulty: "medium", dependencies: ["p6"], tier: 4 },
+      { id: "p8", title: "Feature Integration", description: "Draw 10 complete faces combining eyes, nose, mouth with accurate proportions", difficulty: "hard", dependencies: ["p3", "p4", "p5"], tier: 5 },
+      { id: "p9", title: "Hair Rendering", description: "Practice drawing hair in sections, flowing strands, various textures on 10 studies", difficulty: "medium", dependencies: ["p7"], tier: 5 },
+      { id: "p10", title: "Full Portrait Studies", description: "Complete 5 full portraits from photo reference with lighting and detail", difficulty: "hard", dependencies: ["p8", "p9"], tier: 6 },
+      { id: "p11", title: "Realistic Portrait", description: "Create finished realistic portrait: accurate likeness, value range, and detail", difficulty: "hard", dependencies: ["p10"], tier: 7 },
+    ],
+  },
+  Python: {
+    "build a web scraper": [
+      { id: "w1", title: "Python Basics", description: "Learn variables, strings, lists, and for loops - complete 10 exercises", difficulty: "easy", dependencies: [], tier: 1 },
+      { id: "w2", title: "Functions", description: "Write 10 functions with parameters and return values", difficulty: "easy", dependencies: ["w1"], tier: 2 },
+      { id: "w3", title: "Install Libraries", description: "Install and import requests and BeautifulSoup libraries", difficulty: "easy", dependencies: ["w2"], tier: 3 },
+      { id: "w4", title: "HTTP Requests", description: "Use requests library to fetch 5 different web pages and print response codes", difficulty: "medium", dependencies: ["w3"], tier: 4 },
+      { id: "w5", title: "HTML Basics", description: "Understand HTML structure: tags, classes, IDs for web scraping", difficulty: "easy", dependencies: ["w3"], tier: 3 },
+      { id: "w6", title: "BeautifulSoup Parsing", description: "Parse HTML with BeautifulSoup, extract text from specific tags on 5 pages", difficulty: "medium", dependencies: ["w4", "w5"], tier: 5 },
+      { id: "w7", title: "CSS Selectors", description: "Use CSS selectors to find elements: .class, #id, tag combinations", difficulty: "medium", dependencies: ["w6"], tier: 6 },
+      { id: "w8", title: "Data Extraction", description: "Extract specific data: titles, prices, links from e-commerce site", difficulty: "hard", dependencies: ["w7"], tier: 7 },
+      { id: "w9", title: "Save to File", description: "Write scraped data to CSV file using csv library", difficulty: "medium", dependencies: ["w8"], tier: 7 },
+      { id: "w10", title: "Complete Scraper", description: "Build working scraper: fetch page, extract data, save to CSV, handle errors", difficulty: "hard", dependencies: ["w9"], tier: 8 },
+    ],
+  },
+};
+
 // Generate a generic skill tree for any skill
 const generateGenericTree = (skillName: string): SkillTreeNode[] => {
   return [
@@ -120,7 +192,35 @@ const generateGenericTree = (skillName: string): SkillTreeNode[] => {
   ];
 };
 
+// Generate a goal-specific tree using AI-like logic
+const generateGoalTree = (skillName: string, endGoal: string): SkillTreeNode[] => {
+  const normalizedGoal = endGoal.toLowerCase().trim();
+  
+  // Check if we have a specific template for this goal
+  if (goalTreeTemplates[skillName] && goalTreeTemplates[skillName][normalizedGoal]) {
+    return goalTreeTemplates[skillName][normalizedGoal];
+  }
+  
+  // Generate a custom goal-oriented tree
+  return [
+    { id: "g1", title: `${skillName} Basics`, description: "Learn fundamental concepts needed for your goal", difficulty: "easy", dependencies: [], tier: 1 },
+    { id: "g2", title: "Foundation Skills", description: "Build core abilities required for progression", difficulty: "easy", dependencies: [], tier: 1 },
+    { id: "g3", title: "Prerequisite Techniques", description: `Master techniques that lead to ${endGoal}`, difficulty: "medium", dependencies: ["g1"], tier: 2 },
+    { id: "g4", title: "Progressive Training", description: "Systematically build strength and skill", difficulty: "medium", dependencies: ["g2", "g3"], tier: 3 },
+    { id: "g5", title: "Intermediate Milestone", description: "Achieve halfway point toward your goal", difficulty: "medium", dependencies: ["g4"], tier: 4 },
+    { id: "g6", title: "Advanced Preparation", description: "Refine techniques specifically for your goal", difficulty: "hard", dependencies: ["g5"], tier: 5 },
+    { id: "g7", title: "Goal-Specific Practice", description: `Practice components of ${endGoal} separately`, difficulty: "hard", dependencies: ["g6"], tier: 6 },
+    { id: "g8", title: `Achieve: ${endGoal}`, description: `Complete your goal: ${endGoal}`, difficulty: "hard", dependencies: ["g7"], tier: 7 },
+  ];
+};
+
 export const generateSkillTree = (config: SkillTreeConfig): SkillTreeNode[] => {
+  // If user specified an end goal, generate goal-specific tree
+  if (config.endGoal && config.endGoal.trim()) {
+    return generateGoalTree(config.skill, config.endGoal);
+  }
+  
+  // Otherwise use standard templates
   const template = skillTreeTemplates[config.skill];
   
   if (template) {

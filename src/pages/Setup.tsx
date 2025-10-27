@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, Sparkles, Target } from "lucide-react";
 
 const Setup = () => {
   const [searchParams] = useSearchParams();
@@ -14,6 +15,7 @@ const Setup = () => {
   const [difficulty, setDifficulty] = useState("beginner");
   const [goalType, setGoalType] = useState("hobbyist");
   const [timeCommitment, setTimeCommitment] = useState("moderate");
+  const [endGoal, setEndGoal] = useState("");
 
   useEffect(() => {
     if (!skillName) {
@@ -27,6 +29,7 @@ const Setup = () => {
       difficulty,
       goalType,
       timeCommitment,
+      endGoal,
     };
     localStorage.setItem("skillTreeConfig", JSON.stringify(config));
     navigate("/tree");
@@ -169,6 +172,35 @@ const Setup = () => {
                   </Label>
                 </div>
               </RadioGroup>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card border-primary/20">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Target className="w-5 h-5 text-primary" />
+                <CardTitle>End Goal (Optional)</CardTitle>
+              </div>
+              <CardDescription>
+                Have a specific goal in mind? We'll create a custom path to get you there
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Input
+                placeholder={`e.g., ${
+                  skillName.toLowerCase() === 'fitness' ? 'handstand pushup' :
+                  skillName.toLowerCase() === 'guitar' ? 'play Stairway to Heaven' :
+                  skillName.toLowerCase() === 'drawing' ? 'draw realistic portraits' :
+                  skillName.toLowerCase() === 'python' ? 'build a web scraper' :
+                  'your specific goal'
+                }`}
+                value={endGoal}
+                onChange={(e) => setEndGoal(e.target.value)}
+                className="text-base"
+              />
+              <p className="text-xs text-muted-foreground mt-2">
+                Leave blank for a general learning path
+              </p>
             </CardContent>
           </Card>
 
