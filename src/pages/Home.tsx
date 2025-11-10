@@ -3,16 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Guitar, Palette, Code, Camera, Dumbbell, BookOpen } from "lucide-react";
+import { Sparkles, Guitar, Palette, Code, Camera, Dumbbell, BookOpen, ChefHat, Languages, Music, Trophy } from "lucide-react";
 import heroTree from "@/assets/hero-tree.jpg";
 
 const popularSkills = [
-  { name: "Guitar", icon: Guitar, color: "text-accent" },
-  { name: "Drawing", icon: Palette, color: "text-primary" },
-  { name: "Python", icon: Code, color: "text-secondary" },
-  { name: "Photography", icon: Camera, color: "text-success" },
-  { name: "Fitness", icon: Dumbbell, color: "text-destructive" },
-  { name: "Writing", icon: BookOpen, color: "text-accent" },
+  { name: "Guitar", icon: Guitar, color: "text-accent", gradient: "from-accent to-accent/70" },
+  { name: "Drawing", icon: Palette, color: "text-primary", gradient: "from-primary to-primary-glow" },
+  { name: "Python", icon: Code, color: "text-secondary", gradient: "from-secondary to-info" },
+  { name: "Photography", icon: Camera, color: "text-success", gradient: "from-success to-success/70" },
+  { name: "Fitness", icon: Dumbbell, color: "text-destructive", gradient: "from-destructive to-destructive/70" },
+  { name: "Writing", icon: BookOpen, color: "text-info", gradient: "from-info to-secondary" },
+  { name: "Cooking", icon: ChefHat, color: "text-accent", gradient: "from-accent via-accent/80 to-accent/60" },
+  { name: "Spanish", icon: Languages, color: "text-success", gradient: "from-success to-info" },
+  { name: "Music Production", icon: Music, color: "text-primary", gradient: "from-primary to-secondary" },
+  { name: "Chess", icon: Trophy, color: "text-info", gradient: "from-info to-primary" },
 ];
 
 const Home = () => {
@@ -47,7 +51,7 @@ const Home = () => {
             
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
               Master Any Skill with{" "}
-              <span className="bg-gradient-primary bg-clip-text text-transparent">
+              <span className="bg-gradient-hero bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]">
                 Skill Tree
               </span>
             </h1>
@@ -90,22 +94,25 @@ const Home = () => {
             Start with one of these popular skills or create your own
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {popularSkills.map((item) => {
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {popularSkills.map((item, index) => {
               const Icon = item.icon;
               return (
                 <Card
                   key={item.name}
-                  className="cursor-pointer hover:shadow-card transition-all duration-300 hover:-translate-y-1"
+                  className="cursor-pointer hover:shadow-elevated transition-all duration-500 hover:-translate-y-2 group overflow-hidden bg-gradient-card border-2 hover:border-primary/30"
                   onClick={() => handleGenerate(item.name)}
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <CardContent className="p-6 text-center space-y-3">
-                    <div className="flex justify-center">
-                      <div className="p-3 rounded-2xl bg-gradient-subtle">
-                        <Icon className={`w-8 h-8 ${item.color}`} />
+                  <CardContent className="p-6 text-center space-y-3 relative">
+                    <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500" 
+                         style={{ background: `linear-gradient(135deg, var(--${item.color.replace('text-', '')}), transparent)` }} />
+                    <div className="flex justify-center relative">
+                      <div className={`p-4 rounded-2xl bg-gradient-to-br ${item.gradient} group-hover:scale-110 transition-transform duration-300`}>
+                        <Icon className="w-8 h-8 text-white" />
                       </div>
                     </div>
-                    <p className="font-semibold">{item.name}</p>
+                    <p className="font-semibold relative z-10">{item.name}</p>
                   </CardContent>
                 </Card>
               );
@@ -117,49 +124,49 @@ const Home = () => {
       {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-          <Card className="shadow-card">
+          <Card className="shadow-card bg-gradient-card border-2 hover:border-primary/30 hover:shadow-elevated transition-all duration-500 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-primary" />
+              <CardTitle className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-6 h-6 text-white animate-pulse" />
                 </div>
                 Personalized Paths
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-base">
+              <CardDescription className="text-base leading-relaxed">
                 Get a custom learning roadmap tailored to your goals, difficulty level, and time commitment.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="shadow-card">
+          <Card className="shadow-card bg-gradient-card border-2 hover:border-success/30 hover:shadow-elevated transition-all duration-500 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-success" />
+              <CardTitle className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-success flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-6 h-6 text-white animate-pulse" style={{ animationDelay: "0.2s" }} />
                 </div>
                 Track Progress
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-base">
+              <CardDescription className="text-base leading-relaxed">
                 Mark milestones as complete and watch your skill tree grow as you advance.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="shadow-card">
+          <Card className="shadow-card bg-gradient-card border-2 hover:border-accent/30 hover:shadow-elevated transition-all duration-500 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-accent" />
+              <CardTitle className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-accent flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-6 h-6 text-white animate-pulse" style={{ animationDelay: "0.4s" }} />
                 </div>
                 Stay Motivated
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-base">
+              <CardDescription className="text-base leading-relaxed">
                 Visual progress and achievement unlocking keeps you motivated throughout your journey.
               </CardDescription>
             </CardContent>

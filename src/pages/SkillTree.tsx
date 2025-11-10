@@ -113,27 +113,39 @@ const SkillTree = () => {
           </div>
 
           {/* Progress Card */}
-          <Card className="shadow-card">
+          <Card className="shadow-elevated border-2 border-primary/20 bg-gradient-card">
             <CardContent className="pt-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Trophy className="w-5 h-5 text-accent" />
-                    <span className="font-semibold">Overall Progress</span>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-gradient-accent">
+                      <Trophy className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="font-bold text-lg">Overall Progress</span>
                   </div>
-                  <span className="text-2xl font-bold text-primary">
+                  <span className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                     {progress.percentage}%
                   </span>
                 </div>
-                <Progress value={progress.percentage} className="h-3" />
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span className="flex items-center gap-1">
+                <Progress value={progress.percentage} className="h-4" />
+                <div className="flex items-center justify-between text-sm">
+                  <span className="flex items-center gap-2 text-muted-foreground">
                     <Target className="w-4 h-4" />
-                    {progress.completed} of {progress.total} milestones
+                    {progress.completed} of {progress.total} milestones completed
                   </span>
                   {progress.percentage === 100 && (
-                    <Badge className="bg-gradient-success">
+                    <Badge className="bg-gradient-success text-white px-3 py-1 animate-float">
                       Master Level! 🏆
+                    </Badge>
+                  )}
+                  {progress.percentage >= 75 && progress.percentage < 100 && (
+                    <Badge className="bg-gradient-primary text-white px-3 py-1">
+                      Almost There! 🌟
+                    </Badge>
+                  )}
+                  {progress.percentage >= 50 && progress.percentage < 75 && (
+                    <Badge className="bg-gradient-accent text-white px-3 py-1">
+                      Great Progress! 🔥
                     </Badge>
                   )}
                 </div>
@@ -143,21 +155,31 @@ const SkillTree = () => {
         </div>
 
         {/* Skill Tree Visualization */}
-        <div className="max-w-6xl mx-auto space-y-8">
+        <div className="max-w-6xl mx-auto space-y-10">
           {Object.entries(nodesByTier)
             .sort(([a], [b]) => Number(a) - Number(b))
-            .map(([tier, tierNodes]) => (
-              <div key={tier} className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Badge variant="outline" className="text-sm">
+            .map(([tier, tierNodes], tierIndex) => (
+              <div key={tier} className="space-y-5 relative">
+                <div className="flex items-center gap-4">
+                  <Badge 
+                    variant="outline" 
+                    className="text-sm px-4 py-2 bg-gradient-primary text-white border-0 shadow-glow font-semibold"
+                  >
                     Tier {tier}
                   </Badge>
-                  <div className="flex-1 h-px bg-border" />
+                  <div className="flex-1 h-0.5 bg-gradient-to-r from-primary via-primary/50 to-transparent" />
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {tierNodes.map((node) => (
-                    <div key={node.id} className="animate-slide-in">
+                  {tierNodes.map((node, nodeIndex) => (
+                    <div 
+                      key={node.id} 
+                      className="animate-slide-in"
+                      style={{ 
+                        animationDelay: `${tierIndex * 200 + nodeIndex * 100}ms`,
+                        animationFillMode: 'both'
+                      }}
+                    >
                       <SkillNode
                         {...node}
                         completed={completedIds.has(node.id)}

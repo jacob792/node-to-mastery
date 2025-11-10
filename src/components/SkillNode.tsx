@@ -35,13 +35,13 @@ const SkillNode = ({
 
   return (
     <Card
-      className={`relative transition-all duration-300 ${
+      className={`relative transition-all duration-500 border-2 ${
         completed
-          ? "shadow-glow border-success"
+          ? "shadow-success border-success bg-gradient-to-br from-success/5 to-transparent"
           : isUnlocked
-          ? "shadow-card hover:shadow-elevated cursor-pointer"
-          : "opacity-50 cursor-not-allowed"
-      } ${isHovered && isUnlocked ? "scale-105" : ""} ${
+          ? "shadow-card hover:shadow-elevated cursor-pointer bg-gradient-card border-border hover:border-primary/30"
+          : "opacity-50 cursor-not-allowed border-border/50"
+      } ${isHovered && isUnlocked ? "scale-105 -rotate-1" : ""} ${
         completed ? "animate-pulse-glow" : ""
       }`}
       onMouseEnter={() => setIsHovered(true)}
